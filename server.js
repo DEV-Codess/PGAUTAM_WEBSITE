@@ -12,15 +12,16 @@ app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
+require('dotenv').config(); // Load environment variables from .env file
 
-// MySQL connection setup
 const connection = mysql.createConnection({
-    host: 'mysql-27c56a5f-shahdv94-d0cc.j.aivencloud.com',
-    port: 10625,
-    user: 'avnadmin', // Correct user
-    password: 'REDACTED', // Correct password
-    database: 'defaultdb' // Correct database
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD, // Use environment variable
+    database: process.env.DB_NAME
 });
+
 
 connection.connect((err) => {
     if (err) {
